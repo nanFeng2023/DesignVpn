@@ -4,7 +4,6 @@ import android.os.Looper
 import android.os.Handler
 import android.os.SystemClock
 import com.nfgz.zgg.viewmodel.DvViewModel
-import timber.log.Timber
 
 object TimeUtil {
     private var handler: Handler? = Handler(Looper.getMainLooper())
@@ -45,7 +44,6 @@ object TimeUtil {
     fun pauseTime() {
         timeBuff += millisecondsRecord
         handler?.removeCallbacks(runnable)
-        calculateTime()
     }
 
 }

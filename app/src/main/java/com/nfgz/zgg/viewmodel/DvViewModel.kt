@@ -45,10 +45,7 @@ object DvViewModel : ViewModel() {
         currentVpnBean.port = bean.port
         currentVpnBean.city = bean.city
         currentVpnBean.ip = bean.ip
-        if (bean.connectTime.value.isNullOrBlank()) {
-            bean.connectTime.value = ConstantUtil.CONNECT_DEFAULT_TIME
-        }
-        currentVpnBean.connectTime.value = bean.connectTime.value
+        currentVpnBean.connectTime.value = TimeUtil.curConnectTime
         Timber.d("updateVpnBean()---vpnBean更新完成")
     }
 
@@ -73,7 +70,6 @@ object DvViewModel : ViewModel() {
         resetVpnBean.port = currentVpnBean.port
         resetVpnBean.city = currentVpnBean.city
         resetVpnBean.ip = currentVpnBean.ip
-        resetVpnBean.connectTime.value = currentVpnBean.connectTime.value
         Timber.d("remainLastVpnBeanInfo()")
     }
 }

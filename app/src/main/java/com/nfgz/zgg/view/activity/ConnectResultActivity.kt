@@ -26,7 +26,6 @@ class ConnectResultActivity : BaseActivity() {
             connectResultDataBinding.ivIcon.setImageResource(R.mipmap.ic_nfgz_vpn_connect_success)
             connectResultDataBinding.tvVpnConnectState.text =
                 getString(R.string.connected_successfully)
-            TimeUtil.resetTime()
             TimeUtil.startAccumulateTime()
         } else if (DvViewModel.currentVpnBean.state == VpnBean.VpnState.STOPPED) {
             connectResultDataBinding.clTitleBar.tvTitle.text = getString(R.string.disconnected)

@@ -7,6 +7,8 @@ import android.net.Uri
 import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import com.nfgz.zgg.ActivityManager
 import com.nfgz.zgg.App
 import com.nfgz.zgg.R
 import com.nfgz.zgg.bean.IpBean
@@ -245,6 +247,16 @@ object ProjectUtil {
             }
         }
         return countryResId
+    }
+
+    fun isPageResume(): Boolean {
+        val currentActivity = ActivityManager.getCurrentActivity()
+        if (currentActivity is AppCompatActivity
+            && currentActivity.lifecycle.currentState == Lifecycle.State.RESUMED
+        ) {
+            return true
+        }
+        return false
     }
 
 }

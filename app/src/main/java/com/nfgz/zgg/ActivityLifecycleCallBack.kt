@@ -35,7 +35,7 @@ class ActivityLifecycleCallBack : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(activity: Activity) {
-
+        ActivityManager.setCurrentActivity(activity)
     }
 
     override fun onActivityPaused(activity: Activity) {
