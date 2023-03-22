@@ -1,0 +1,42 @@
+[
+  {
+    "nfgzpd": "u1rRWTssNv0p11",
+    "nfgzacct": "aes-256-cfb",
+    "nfgzpt": 1000,
+    "nfgzcoy": "United States",
+    "nfgzciy": "New York",
+    "nfgzip": "39.156.66.10"
+  },
+  {
+    "nfgzpd": "u1rRWTssNv0p22",
+    "nfgzacct": "aes-256-cfb",
+    "nfgzpt": 2000,
+    "nfgzcoy": "Canada",
+    "nfgzciy": "ottawa123",
+    "nfgzip": "118.116.2.140"
+  },
+  {
+    "nfgzpd": "u1rRWTssNv0p22",
+    "nfgzacct": "aes-256-cfb",
+    "nfgzpt": 3000,
+    "nfgzcoy": "united kingdom",
+    "nfgzciy": "london",
+    "nfgzip": "118.123.0.244"
+  },
+  {
+    "nfgzpd": "u1rRWTssNv0p22",
+    "nfgzacct": "aes-256-cfb",
+    "nfgzpt": 4000,
+    "nfgzcoy": "france",
+    "nfgzciy": "paris",
+    "nfgzip": "49.7.37.76"
+  },
+  {
+    "nfgzpd": "u1rRWTssNv0p22",
+    "nfgzacct": "aes-256-cfb",
+    "nfgzpt": 5000,
+    "nfgzcoy": "germany",
+    "nfgzciy": "berlin",
+    "nfgzip": "14.119.104.189"
+  }
+]

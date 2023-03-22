@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.nfgz.zgg.viewmodel.DvViewModel" />
+    </data>
+
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--tools:bind="@{vpnBean}" -->
+            <include
+                android:id="@+id/cl_vpn"
+                layout="@layout/layout_current_vpn_show_bar"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_connect_time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/connection_time"
+                android:textColor="@color/connection_time_tv_color"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_vpn" />
+
+            <TextView
+                android:id="@+id/tv_connect_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@{viewModel.currentVpnBean.connectTime}"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_connect_time_title" />
+
+            <ImageView
+                android:id="@+id/iv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:layout_marginTop="140dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_nfgz_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lav"
+                android:layout_width="191dp"
+                android:layout_height="191dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_bg"
+                app:layout_constraintEnd_toEndOf="@+id/iv_bg"
+                app:layout_constraintStart_toStartOf="@id/iv_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_bg"
+                app:lottie_fileName="lottie/connect/images/nfgz_connect_animation.json"
+                app:lottie_imageAssetsFolder="lottie/connect/images"
+                app:lottie_loop="true"
+                app:lottie_progress="0" />
+
+            <ImageView
+                android:id="@+id/iv_connect_state_bg"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:layout_marginTop="140dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_set"
+                android:layout_width="50dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="384dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_nfgz_set"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/layout_nav_header"
+            app:itemIconPadding="@dimen/design_navigation_icon_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/nav_menu"
+            tools:ignore="PrivateResource" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>

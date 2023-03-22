@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activity.FlashScreenActivity">
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="274dp"
+            android:layout_height="274dp"
+            android:layout_marginTop="71dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@mipmap/ic_nfgz_bg" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="90dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_bg"
+            app:layout_constraintEnd_toEndOf="@+id/iv_bg"
+            app:layout_constraintStart_toStartOf="@+id/iv_bg"
+            app:layout_constraintTop_toTopOf="@+id/iv_bg"
+            android:src="@mipmap/ic_nfgz_app_icon" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="277dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_bg"
+            android:max="100"
+            android:progressDrawable="@drawable/style_progressbar_flash" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

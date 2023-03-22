@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name" translatable="false">DesignVpn</string>
+    <string name="contact_us" translatable="false">Contact us</string>
+    <string name="privacy_policy" translatable="false">Privacy Policy</string>
+    <string name="update" translatable="false">Update</string>
+    <string name="share" translatable="false">Share</string>
+    <string name="route_selection" translatable="false">Route selection</string>
+    <string name="connection_time" translatable="false">Connection time:</string>
+    <string name="disconnected" translatable="false">Disconnected</string>
+    <string name="connect_success" translatable="false">Connect Success</string>
+    <string name="vpn_disconnected" translatable="false">VPN Disconnected</string>
+    <string name="connected_successfully" translatable="false">Connected Successfully</string>
+    <string name="server" translatable="false">Server</string>
+</resources>
