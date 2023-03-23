@@ -60,7 +60,7 @@ object ProjectUtil {
         val countryUppercase = country?.uppercase()
         val isBelongRestrictCountry =
             ConstantUtil.COUNTRY_HK == countryUppercase ||
-                    ConstantUtil.COUNTRY_CN == countryUppercase ||
+                    /*ConstantUtil.COUNTRY_CN == countryUppercase ||*/
                     ConstantUtil.COUNTRY_IR == countryUppercase ||
                     ConstantUtil.COUNTRY_MO == countryUppercase
         DvViewModel.currentVpnBean.isBelongRestrictCountry = isBelongRestrictCountry

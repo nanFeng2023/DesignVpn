@@ -85,7 +85,12 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
         Timber.d("startVpnConnect()")
         curSelectCountry = SPUtil.getString(ConstantUtil.CUR_SELECT_COUNTRY)
         if (curSelectCountry == ConstantUtil.DEFAULT_SERVICE) {
-            selectSmartService()
+            try {
+                selectSmartService()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.d("startVpnConnect()---smart测速异常:${e.printStackTrace()}")
+            }
         }
         connectJob = lifecycleScope.launch {
             flow {
@@ -520,11 +525,16 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
                                 RetrofitUtil.smartServiceList.sortBy {
                                     it.ipDelayTime
                                 }
-                                val randomVpnList: ArrayList<VpnBean> = ArrayList()
-                                for (j in 0 until 3) {
-                                    randomVpnList.add(RetrofitUtil.smartServiceList[j])
+                                val size = RetrofitUtil.smartServiceList.size
+                                if (size > 3) {
+                                    val randomVpnList: ArrayList<VpnBean> = ArrayList()
+                                    for (j in 0 until 3) {
+                                        randomVpnList.add(RetrofitUtil.smartServiceList[j])
+                                    }
+                                    randomSelectVpnAndUpdateInfo(randomVpnList)
+                                } else {
+                                    randomSelectVpnAndUpdateInfo(RetrofitUtil.smartServiceList)
                                 }
-                                randomSelectVpnAndUpdateInfo(randomVpnList)
                             }
                         }
                     })

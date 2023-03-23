@@ -20,7 +20,11 @@ object DvViewModel : ViewModel() {
         val countryAndCity = SPUtil.getString(ConstantUtil.CUR_SELECT_COUNTRY)
         val country = ProjectUtil.splitStrGetCountry(countryAndCity)
         currentVpnBean.country = country
-        currentVpnBean.title.value = countryAndCity
+        if (countryAndCity.isNullOrBlank()) {
+            currentVpnBean.title.value = ConstantUtil.DEFAULT_SERVICE
+        } else {
+            currentVpnBean.title.value = countryAndCity
+        }
         currentVpnBean.countryResId.value = ProjectUtil.selectCountryIcon(country)
         currentVpnBean.connectTime.value = TimeUtil.curConnectTime
 
