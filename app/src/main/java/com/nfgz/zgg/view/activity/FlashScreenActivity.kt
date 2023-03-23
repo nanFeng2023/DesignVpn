@@ -2,8 +2,8 @@ package com.nfgz.zgg.view.activity
 
 import android.content.Intent
 import androidx.lifecycle.lifecycleScope
-import com.nfgz.zgg.R
-import com.nfgz.zgg.databinding.ActivityFlashScreenBinding
+import com.gameacclerator.lightningoptimizer.R
+import com.gameacclerator.lightningoptimizer.databinding.ActivityFlashScreenBinding
 import com.nfgz.zgg.util.ConstantUtil
 import com.nfgz.zgg.util.ProjectUtil
 import kotlinx.coroutines.Job

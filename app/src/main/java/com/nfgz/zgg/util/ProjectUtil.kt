@@ -8,9 +8,9 @@ import android.telephony.TelephonyManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import com.gameacclerator.lightningoptimizer.R
 import com.nfgz.zgg.ActivityManager
 import com.nfgz.zgg.App
-import com.nfgz.zgg.R
 import com.nfgz.zgg.bean.IpBean
 import com.nfgz.zgg.bean.VpnBean
 import com.nfgz.zgg.inter.BusinessProcessCallBack

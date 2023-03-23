@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">DesignVpn</string>
+    <string name="app_name" translatable="false">Lightning Optimizer</string>
     <string name="contact_us" translatable="false">Contact us</string>
     <string name="privacy_policy" translatable="false">Privacy Policy</string>
     <string name="update" translatable="false">Update</string>
@@ -11,4 +11,5 @@
     <string name="vpn_disconnected" translatable="false">VPN Disconnected</string>
     <string name="connected_successfully" translatable="false">Connected Successfully</string>
     <string name="server" translatable="false">Server</string>
+    <string name="facebook_app_id" translatable="false">945908676567556</string>
 </resources>

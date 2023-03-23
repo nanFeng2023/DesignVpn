@@ -3,9 +3,9 @@ package com.nfgz.zgg.view.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nfgz.zgg.R
+import com.gameacclerator.lightningoptimizer.R
+import com.gameacclerator.lightningoptimizer.databinding.ActivityServiceListBinding
 import com.nfgz.zgg.bean.VpnBean
-import com.nfgz.zgg.databinding.ActivityServiceListBinding
 import com.nfgz.zgg.net.retrofit.RetrofitUtil
 import com.nfgz.zgg.util.AlertDialogUtil
 import com.nfgz.zgg.util.ConstantUtil

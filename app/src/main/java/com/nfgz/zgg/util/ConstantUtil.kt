@@ -15,8 +15,8 @@ object ConstantUtil {
     const val CONNECT_DEFAULT_TIME = "00:00:00"
 
     //菜单相关配置  -------正式配置相关-----------
-    const val PRIVACY_POLICY_URL = "https://www.baidu.com"  //隐私协议
-    const val MAIL_ACCOUNT = "182233939@qq.com"  //邮箱账号
+    const val PRIVACY_POLICY_URL = "https://sites.google.com/view/lightning-optimizer/home"  //隐私协议
+    const val MAIL_ACCOUNT = "serrayvonnevic@gmail.com"  //邮箱账号
     const val GOOGLE_STORE_URL = "https://play.google.com/store/apps/details?id="  //商城地址
     //-------正式配置相关-----------------------
 

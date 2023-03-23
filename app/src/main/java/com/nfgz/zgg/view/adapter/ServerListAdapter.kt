@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.nfgz.zgg.R
+import com.gameacclerator.lightningoptimizer.R
 import com.nfgz.zgg.bean.VpnBean
 import com.nfgz.zgg.util.ConstantUtil
 import com.nfgz.zgg.util.ProjectUtil

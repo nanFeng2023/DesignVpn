@@ -3,8 +3,8 @@ package com.nfgz.zgg.view.activity
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.webkit.WebViewClient
-import com.nfgz.zgg.R
-import com.nfgz.zgg.databinding.ActivityPrivacyPolicyBinding
+import com.gameacclerator.lightningoptimizer.R
+import com.gameacclerator.lightningoptimizer.databinding.ActivityPrivacyPolicyBinding
 import com.nfgz.zgg.util.ConstantUtil
 
 class PrivacyPolicyActivity : BaseActivity() {

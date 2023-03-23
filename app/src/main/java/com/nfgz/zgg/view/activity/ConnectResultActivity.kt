@@ -2,9 +2,9 @@ package com.nfgz.zgg.view.activity
 
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
-import com.nfgz.zgg.R
+import com.gameacclerator.lightningoptimizer.R
+import com.gameacclerator.lightningoptimizer.databinding.ActivityConnectResultBinding
 import com.nfgz.zgg.bean.VpnBean
-import com.nfgz.zgg.databinding.ActivityConnectResultBinding
 import com.nfgz.zgg.util.ConstantUtil
 import com.nfgz.zgg.util.ProjectUtil
 import com.nfgz.zgg.util.TimeUtil

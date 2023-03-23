@@ -15,15 +15,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
+import com.gameacclerator.lightningoptimizer.R
+import com.gameacclerator.lightningoptimizer.databinding.ActivityMainBinding
 import com.github.shadowsocks.Core
 import com.github.shadowsocks.aidl.IShadowsocksService
 import com.github.shadowsocks.aidl.ShadowsocksConnection
 import com.github.shadowsocks.bg.BaseService
 import com.nfgz.zgg.App
 import com.nfgz.zgg.PermissionVPN
-import com.nfgz.zgg.R
 import com.nfgz.zgg.bean.VpnBean
-import com.nfgz.zgg.databinding.ActivityMainBinding
 import com.nfgz.zgg.inter.AppFrontAndBgListener
 import com.nfgz.zgg.inter.BusinessProcessCallBack
 import com.nfgz.zgg.inter.IPDelayTimeCallBack
@@ -85,7 +85,12 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
         Timber.d("startVpnConnect()")
         curSelectCountry = SPUtil.getString(ConstantUtil.CUR_SELECT_COUNTRY)
         if (curSelectCountry == ConstantUtil.DEFAULT_SERVICE) {
-            selectSmartService()
+            try {
+                selectSmartService()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.d("startVpnConnect()---smart测速异常:${e.printStackTrace()}")
+            }
         }
         connectJob = lifecycleScope.launch {
             flow {
@@ -493,13 +498,25 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
             RetrofitUtil.serviceList?.let { RetrofitUtil.smartServiceList.addAll(it) }
             if (RetrofitUtil.smartServiceList.size > 0)//去掉第一个smart服务器占位对象
                 RetrofitUtil.smartServiceList.removeAt(0)
-            sortIpDelayTime()
+            try {
+                sortIpDelayTime()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.d("selectSmartService()---e:$e")
+                RetrofitUtil.serviceList?.let { randomSelectVpnAndUpdateInfo(it) }
+            }
         } else if (smartListSize <= 3) {//如果smart服务器数量小于等于3,随机选择一个连接
             Timber.d("selectSmartService()---smart服务器数量<=3,随机选择一个连接")
             randomSelectVpnAndUpdateInfo(RetrofitUtil.smartServiceList)
         } else {
             Timber.d("selectSmartService()---smart服务器数量大于3,延时从小到大排序，选出三个最快的，随机选择一个连接")
-            sortIpDelayTime()
+            try {
+                sortIpDelayTime()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Timber.d("selectSmartService()---e:$e")
+                RetrofitUtil.serviceList?.let { randomSelectVpnAndUpdateInfo(it) }
+            }
         }
     }
 
@@ -520,11 +537,16 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
                                 RetrofitUtil.smartServiceList.sortBy {
                                     it.ipDelayTime
                                 }
-                                val randomVpnList: ArrayList<VpnBean> = ArrayList()
-                                for (j in 0 until 3) {
-                                    randomVpnList.add(RetrofitUtil.smartServiceList[j])
+                                val size = RetrofitUtil.smartServiceList.size
+                                if (size > 3) {
+                                    val randomVpnList: ArrayList<VpnBean> = ArrayList()
+                                    for (j in 0 until 3) {
+                                        randomVpnList.add(RetrofitUtil.smartServiceList[j])
+                                    }
+                                    randomSelectVpnAndUpdateInfo(randomVpnList)
+                                } else {
+                                    randomSelectVpnAndUpdateInfo(RetrofitUtil.smartServiceList)
                                 }
-                                randomSelectVpnAndUpdateInfo(randomVpnList)
                             }
                         }
                     })
