@@ -43,6 +43,7 @@ object AdvertiseManager {
     private var adSpaceHashMap: HashMap<String, AdSpaceBean> = HashMap()
     private var adDataResult: AdDataResult? = null
     var fullScreenCallBack: FullScreenContentCallback? = null
+
     @SuppressLint("StaticFieldLeak")
     var webViewManager: WebViewManager? = null
 

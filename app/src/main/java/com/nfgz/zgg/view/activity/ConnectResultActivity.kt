@@ -68,35 +68,35 @@ class ConnectResultActivity : BaseActivity() {
             )
             connectResultDataBinding.tvShowVpn.text = countryAndCity
         }
-//        showNativeResultAdAndLoadAd()
+        showNativeResultAdAndLoadAd()
 
-        scopeJob = lifecycleScope.launch(Dispatchers.Main) {
-            flow {
-                (0 until 100).forEach() {
-                    delay(1000L)
-                    emit(it)
-                }
-            }.onStart {
-                Timber.d("initProcess()---onStart---当前线程:${Thread.currentThread().name}")
-                if (AdvertiseManager.checkDayLimit() || AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_RESULT)) {
-                    cancel()
-                    Timber.d("initProcess()---onStart---取消")
-                }
-            }.onCompletion {
-                Timber.d("initProcess()---onCompletion---当前线程:${Thread.currentThread().name}")
-                showNativeResultAdAndLoadAd()
-            }.collect {
-                if (AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_RESULT)
-                    || AdvertiseManager.getAdSpaceBean(
-                        ConstantUtil.AD_SPACE_NATIVE_RESULT
-                    )
-                        ?.allReqAdFinished() == true
-                ) {
-                    cancel()
-                    Timber.d("initProcess()---collect---取消")
-                }
-            }
-        }
+//        scopeJob = lifecycleScope.launch(Dispatchers.Main) {
+//            flow {
+//                (0 until 100).forEach() {
+//                    delay(1000L)
+//                    emit(it)
+//                }
+//            }.onStart {
+//                Timber.d("initProcess()---onStart---当前线程:${Thread.currentThread().name}")
+//                if (AdvertiseManager.checkDayLimit() || AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_RESULT)) {
+//                    cancel()
+//                    Timber.d("initProcess()---onStart---取消")
+//                }
+//            }.onCompletion {
+//                Timber.d("initProcess()---onCompletion---当前线程:${Thread.currentThread().name}")
+//                showNativeResultAdAndLoadAd()
+//            }.collect {
+//                if (AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_RESULT)
+//                    || AdvertiseManager.getAdSpaceBean(
+//                        ConstantUtil.AD_SPACE_NATIVE_RESULT
+//                    )
+//                        ?.allReqAdFinished() == true
+//                ) {
+//                    cancel()
+//                    Timber.d("initProcess()---collect---取消")
+//                }
+//            }
+//        }
     }
 
     private fun showNativeResultAdAndLoadAd() {
@@ -155,7 +155,7 @@ class ConnectResultActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        scopeJob.cancel()
+//        scopeJob.cancel()
     }
 
 }

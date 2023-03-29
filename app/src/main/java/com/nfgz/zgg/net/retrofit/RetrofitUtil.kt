@@ -3,7 +3,6 @@ package com.nfgz.zgg.net.retrofit
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.nfgz.zgg.App
-import com.nfgz.zgg.ad.AdvertiseManager
 import com.nfgz.zgg.bean.AdBean
 import com.nfgz.zgg.bean.AdDataResult
 import com.nfgz.zgg.bean.IpBean

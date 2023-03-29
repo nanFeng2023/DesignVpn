@@ -58,12 +58,11 @@
 
                     <TextView
                         android:id="@+id/tv_ad_headline"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:maxEms="20"
-                        android:maxWidth="80dp"
                         android:maxLines="1"
-                        android:text="Boom BeachStart building your"
+                        android:text="Boom BeachStart buildingddgd"
                         android:textColor="@color/show_select_vpn_tv_color"
                         android:textSize="14sp" />
 

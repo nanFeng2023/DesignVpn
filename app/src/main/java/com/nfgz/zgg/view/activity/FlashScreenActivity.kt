@@ -2,9 +2,6 @@ package com.nfgz.zgg.view.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.view.View
-import android.webkit.WebSettings
-import android.webkit.WebViewClient
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.AdActivity
 import com.nfgz.zgg.App
@@ -144,7 +141,7 @@ class FlashScreenActivity : BaseActivity(), AdReqResultCallBack, AppFrontAndBgLi
 
     override fun onAdLoadFail() {
         Timber.d("onAdLoadFail()---")
-        gotoHomePage()
+        defaultTime = 10L
     }
 
     override fun onRestart() {
