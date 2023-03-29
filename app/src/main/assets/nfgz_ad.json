@@ -1,41 +1,17 @@
 {
-  "day_show_limit": 50,
-  "day_click_limit": 2,
+  "day_show_limit": 30,
+  "day_click_limit": 5,
   "open_on": [
     {
-      "ad_item_id": "https://tb.enjoy4fun.com",
-      "ad_item_source": "h5",
-      "ad_item_type": "open",
-      "ad_item_p": 2
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/3419835294",
+      "ad_item_id": "ca-app-pub-2272201923614054/6377406124",
       "ad_item_source": "admob",
       "ad_item_type": "open",
       "ad_item_p": 1
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/3419835294xx",
-      "ad_item_source": "admob",
-      "ad_item_type": "open",
-      "ad_item_p": 3
     }
   ],
   "inter_ib": [
     {
-      "ad_item_id": "https://h5.playthus.com",
-      "ad_item_source": "h5",
-      "ad_item_type": "inter",
-      "ad_item_p": 2
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/3419835294xx",
-      "ad_item_source": "admob",
-      "ad_item_type": "inter",
-      "ad_item_p": 3
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/3419835294",
+      "ad_item_id": "ca-app-pub-2272201923614054/8285932908",
       "ad_item_source": "admob",
       "ad_item_type": "inter",
       "ad_item_p": 1
@@ -43,62 +19,26 @@
   ],
   "inter_click": [
     {
-      "ad_item_id": "https://h5.playthus.com",
-      "ad_item_source": "h5",
-      "ad_item_type": "inter",
-      "ad_item_p": 2
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/3419835294",
+      "ad_item_id": "ca-app-pub-2272201923614054/5851341251",
       "ad_item_source": "admob",
       "ad_item_type": "inter",
       "ad_item_p": 1
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/3419835294xx",
-      "ad_item_source": "admob",
-      "ad_item_type": "inter",
-      "ad_item_p": 3
     }
   ],
   "native_home": [
     {
-      "ad_item_id": "ca-app-pub-3940256099942544/2247696110x",
-      "ad_item_source": "admob",
-      "ad_item_type": "native",
-      "ad_item_p": 2
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/2247696110",
+      "ad_item_id": "ca-app-pub-2272201923614054/9790586265",
       "ad_item_source": "admob",
       "ad_item_type": "native",
       "ad_item_p": 1
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/2247696110xx",
-      "ad_item_source": "admob",
-      "ad_item_type": "native",
-      "ad_item_p": 3
     }
   ],
   "native_result": [
     {
-      "ad_item_id": "ca-app-pub-3940256099942544/2247696110x",
-      "ad_item_source": "admob",
-      "ad_item_type": "native",
-      "ad_item_p": 2
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/2247696110",
+      "ad_item_id": "ca-app-pub-2272201923614054/7908898078",
       "ad_item_source": "admob",
       "ad_item_type": "native",
       "ad_item_p": 1
-    },
-    {
-      "ad_item_id": "ca-app-pub-3940256099942544/2247696110xx",
-      "ad_item_source": "admob",
-      "ad_item_type": "native",
-      "ad_item_p": 3
     }
   ]
 }

@@ -1,18 +1,18 @@
 [
   {
-    "nfgzpd": "u1rRWTssNv0p11",
-    "nfgzacct": "aes-256-cfb",
-    "nfgzpt": 1000,
-    "nfgzcoy": "United States",
-    "nfgzciy": "New York",
-    "nfgzip": "39.156.66.10"
+    "lightning_pwd": "xJ_yGhbazS9lQqXI",
+    "lightning_account": "chacha20-ietf-poly1305",
+    "lightning_port": 7631,
+    "lightning_coutry": "Germany",
+    "lightning_city": "Dusseldorf",
+    "lightning_ip": "161.97.170.219"
   },
   {
-    "nfgzpd": "u1rRWTssNv0p22",
-    "nfgzacct": "aes-256-cfb",
-    "nfgzpt": 2000,
-    "nfgzcoy": "Canada",
-    "nfgzciy": "ottawa123",
-    "nfgzip": "118.116.2.140"
+    "lightning_pwd": "xJ_yGhbazS9lQqXI",
+    "lightning_account": "chacha20-ietf-poly1305",
+    "lightning_port": 7631,
+    "lightning_coutry": "United Kingdom",
+    "lightning_city": "Portsmouth",
+    "lightning_ip": "149.102.145.188"
   }
 ]

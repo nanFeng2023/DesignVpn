@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "148664770971",
+    "project_id": "lightning-optimizer",
+    "storage_bucket": "lightning-optimizer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148664770971:android:3be26ef708e225a901c13e",
+        "android_client_info": {
+          "package_name": "com.gameacclerator.lightningoptimizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148664770971-bcn9ofq8jdavtg6gjv6q5sn8gnjqbc3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4UBbqMpHj4TXXZ0933QK97D-tr7bG3Lw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148664770971-bcn9ofq8jdavtg6gjv6q5sn8gnjqbc3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
