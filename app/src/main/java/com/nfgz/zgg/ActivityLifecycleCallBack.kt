@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Intent
 import android.os.Bundle
+import com.google.android.gms.ads.AdActivity
 import com.nfgz.zgg.inter.AppFrontAndBgListener
 import com.nfgz.zgg.util.ConstantUtil
 import com.nfgz.zgg.view.activity.FlashScreenActivity
@@ -12,19 +13,22 @@ import timber.log.Timber
 class ActivityLifecycleCallBack : ActivityLifecycleCallbacks {
     private var lastExitTime = -1L
     private var finalCount: Int = 0
-    var appFrontAndBgListener: AppFrontAndBgListener? = null
+    var appFrontAndBgListenerList = ArrayList<AppFrontAndBgListener>()
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
 
     }
 
     override fun onActivityStarted(activity: Activity) {
         finalCount++
+        ActivityManager.setCurrentActivity(activity)
         //如果finalCount==1,说明应用是后台到前台
         if (finalCount == 1) {
+            appFrontAndBgListenerList.forEach { listener ->
+                listener.onAppToFront(activity)
+            }
             val currentTimeMillis = System.currentTimeMillis()
             val intervalTime = currentTimeMillis - lastExitTime
             Timber.d("onActivityStarted()---activity:${activity.localClassName}---intervalTime:$intervalTime")
-            appFrontAndBgListener?.onAppToFront()
             if (lastExitTime != -1L && intervalTime > 3000) {
                 Timber.d("onActivityStarted()---热启动")
                 val intent = Intent(activity, FlashScreenActivity::class.java)
@@ -35,7 +39,7 @@ class ActivityLifecycleCallBack : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(activity: Activity) {
-        ActivityManager.setCurrentActivity(activity)
+
     }
 
     override fun onActivityPaused(activity: Activity) {
@@ -48,9 +52,15 @@ class ActivityLifecycleCallBack : ActivityLifecycleCallbacks {
         if (finalCount == 0) {
             Timber.d("onActivityStopped()---应用退到后台---activity:${activity.localClassName}")
             lastExitTime = System.currentTimeMillis()
-            appFrontAndBgListener?.onAppToBackGround()
+            appFrontAndBgListenerList.forEach { listener ->
+                listener.onAppToBackGround(activity)
+            }
         }
-
+//        if (activity is AdActivity) {
+//            appFrontAndBgListenerList.forEach { listener ->
+//                listener.onAppToBackGround(activity)
+//            }
+//        }
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {

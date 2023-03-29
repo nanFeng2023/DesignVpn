@@ -93,7 +93,32 @@
                 app:layout_constraintBottom_toBottomOf="@+id/iv_small_app_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/iv_small_app_icon" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cd_ad_view_group"
+            android:layout_width="match_parent"
+            android:layout_height="328dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/white"
+            android:visibility="invisible"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/cl_vpn" />
+
+        <ImageView
+            android:id="@+id/iv_ad_bg"
+            android:layout_width="match_parent"
+            android:layout_height="328dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_nfgz_connect_result_no_ad_bg"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/cl_vpn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

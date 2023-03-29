@@ -11,4 +11,6 @@
     <color name="progressbar_bg_color">#E7E7E7</color>
     <color name="show_select_vpn_tv_color">#333333</color>
     <color name="connection_time_tv_color">#66000000</color>
+    <color name="native_ad_description_color">#8C333333</color>
+    <color name="transparent">#00000000</color>
 </resources>

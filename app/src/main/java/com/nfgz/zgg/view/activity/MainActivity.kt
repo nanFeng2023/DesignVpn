@@ -1,5 +1,6 @@
 package com.nfgz.zgg.view.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.RemoteException
@@ -19,11 +20,14 @@ import com.github.shadowsocks.Core
 import com.github.shadowsocks.aidl.IShadowsocksService
 import com.github.shadowsocks.aidl.ShadowsocksConnection
 import com.github.shadowsocks.bg.BaseService
+import com.google.android.gms.ads.AdActivity
 import com.nfgz.zgg.App
 import com.nfgz.zgg.PermissionVPN
 import com.nfgz.zgg.R
+import com.nfgz.zgg.ad.AdvertiseManager
 import com.nfgz.zgg.bean.VpnBean
 import com.nfgz.zgg.databinding.ActivityMainBinding
+import com.nfgz.zgg.inter.AdShowStateCallBack
 import com.nfgz.zgg.inter.AppFrontAndBgListener
 import com.nfgz.zgg.inter.BusinessProcessCallBack
 import com.nfgz.zgg.inter.IPDelayTimeCallBack
@@ -31,6 +35,7 @@ import com.nfgz.zgg.net.retrofit.RetrofitUtil
 import com.nfgz.zgg.util.*
 import com.nfgz.zgg.viewmodel.DvViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
@@ -40,7 +45,7 @@ import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
+class MainActivity : BaseActivity(), ShadowsocksConnection.Callback, AppFrontAndBgListener {
     private lateinit var guildLayout: ConstraintLayout
     private lateinit var guideLav: LottieAnimationView
     private lateinit var mainDataBinding: ActivityMainBinding
@@ -58,6 +63,7 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
     private var curSelectCountry: String? = null
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
     private var isServerPageReqStopVpn = false
+    private var destroyAdPageScopeJob: Job? = null
 
     private fun connectPermissionDetect() {
         Timber.d("connectPermissionDetect()")
@@ -92,10 +98,11 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
                 Timber.d("startVpnConnect()---smart测速异常:${e.printStackTrace()}")
             }
         }
+        val defaultAnimationTime = 1000L
         connectJob = lifecycleScope.launch {
             flow {
-                repeat((0 until 5).count()) {
-                    delay(1000)
+                repeat((0 until 10).count()) {
+                    delay(defaultAnimationTime)
                     emit(it)
                 }
             }.onStart {
@@ -103,36 +110,64 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
                 mainDataBinding.lav.playAnimation()
                 maskClickEvent(false)
                 currentVpnBean.setVpnState(VpnBean.VpnState.CONNECTING)
+                reqInterClickAd()
+                checkNativeResultAdAndReq()
             }.onCompletion {
                 if (currentVpnBean.state == VpnBean.VpnState.CONNECTING) {
                     Timber.d("startVpnConnect()---开始连接VPN")
                     Core.startService()
+                    reqInterClickAd()
                 }
             }.collect {
+                //广告有缓存或者超限取消动画
+                if (AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_INTER_CLICK) || AdvertiseManager.checkDayLimit()
+                ) {
+                    connectJob.cancel()
+                }
 
             }
         }
+    }
+
+    private fun checkNativeResultAdAndReq() {
+        if (!AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_RESULT)) {
+            reqNativeResultAd()
+        }
+    }
+
+    private fun reqInterClickAd() {
+        AdvertiseManager.reqAd(ConstantUtil.AD_SPACE_INTER_CLICK)
+    }
+
+    private fun reqNativeResultAd() {
+        AdvertiseManager.reqAd(ConstantUtil.AD_SPACE_NATIVE_RESULT)
     }
 
     private fun stopVpnConnected() {
         Timber.d("stopVpnConnected()")
         connectJob = lifecycleScope.launch {
             flow {
-                repeat((0 until 5).count()) {
-                    delay(1000)
+                repeat((0 until 10).count()) {
+                    delay(1000L)
                     emit(it)
                 }
             }.onStart {
                 connectStateIvBgDismiss()
                 mainDataBinding.lav.playAnimation()
                 currentVpnBean.setVpnState(VpnBean.VpnState.STOPPING)
+                reqInterClickAd()
+                checkNativeResultAdAndReq()
             }.onCompletion {
                 if (currentVpnBean.state == VpnBean.VpnState.STOPPING) {
                     Timber.d("stopVpnConnected()---开始停止VPN")
                     Core.stopService()
+                    reqInterClickAd()
                 }
             }.collect {
-
+                if (AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_INTER_CLICK) || AdvertiseManager.checkDayLimit()
+                ) {
+                    connectJob.cancel()
+                }
             }
         }
     }
@@ -174,15 +209,7 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
         shadowSockConnection.connect(this, this)
 
         //前后台监听
-        App.activityLifecycleCallBack.appFrontAndBgListener = object : AppFrontAndBgListener {
-            override fun onAppToFront() {
-
-            }
-
-            override fun onAppToBackGround() {
-                stopAnimationAndResetState()
-            }
-        }
+        App.activityLifecycleCallBack.appFrontAndBgListenerList.add(this)
 
         //首次进app默认选择smart
         val isFirstIntoApp = SPUtil.getBoolean(ConstantUtil.IS_FIRST_INTO_APP, true)
@@ -256,11 +283,13 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
             connectJob.cancel()
             connectStateIvBgShow()
             Timber.d("stopAnimationAndResetState()---停止vpn关闭动画")
-            //上次选中的国家取出来重新保存
-            val lastSelectCountry = SPUtil.getString(ConstantUtil.LAST_SELECT_COUNTRY)
-            SPUtil.putString(ConstantUtil.CUR_SELECT_COUNTRY, lastSelectCountry)
-            DvViewModel.updateVpnBean(DvViewModel.resetVpnBean)
-            DvViewModel.updateProfile(DvViewModel.resetVpnBean)
+            if (isServerPageReqStopVpn) {
+                //上次选中的国家取出来重新保存
+                val lastSelectCountry = SPUtil.getString(ConstantUtil.LAST_SELECT_COUNTRY)
+                SPUtil.putString(ConstantUtil.CUR_SELECT_COUNTRY, lastSelectCountry)
+                DvViewModel.updateVpnBean(DvViewModel.resetVpnBean)
+                DvViewModel.updateProfile(DvViewModel.resetVpnBean)
+            }
         }
     }
 
@@ -385,6 +414,78 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        //引导页过来才刷新
+        if (ProjectUtil.isRefreshNativeAd) {
+            ProjectUtil.isRefreshNativeAd = false
+            Timber.d("onStart()---原生页面刷新")
+            judgeNativeAdShowing()
+        } else if (currentVpnBean.state == VpnBean.VpnState.STOPPED) {
+            TimeUtil.resetTime()
+            Timber.d("onStart()---")
+        }
+    }
+
+    private fun judgeNativeAdShowing() {
+        lifecycleScope.launch {
+            flow<Int> {
+                (0 until 5).forEach() {//5秒检测是否请求到广告
+                    delay(1000L)
+                    emit(it)
+                }
+            }.onStart {
+                if (AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_HOME)
+                    || AdvertiseManager.checkDayLimit()
+                ) {
+                    cancel()
+                } else {
+                    mainDataBinding.ivAd.visibility = View.VISIBLE
+                    mainDataBinding.navAdParentGroup.visibility = View.INVISIBLE
+                    loadNativeHomeAd()
+                }
+            }.onCompletion {
+                if (AdvertiseManager.checkDayLimit()) {
+                    mainDataBinding.ivAd.visibility = View.VISIBLE
+                    mainDataBinding.navAdParentGroup.visibility = View.INVISIBLE
+                } else if (AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_HOME)) {
+                    mainDataBinding.ivAd.visibility = View.INVISIBLE
+                    mainDataBinding.navAdParentGroup.visibility = View.VISIBLE
+                    showNativeAd()
+                }
+            }.collect {
+                if (AdvertiseManager.isAdAvailable(ConstantUtil.AD_SPACE_NATIVE_HOME)) {
+                    cancel()
+                }
+            }
+        }
+    }
+
+    private fun showNativeAd() {
+        AdvertiseManager.showAd(
+            this@MainActivity, ConstantUtil.AD_SPACE_NATIVE_HOME, object : AdShowStateCallBack {
+                override fun onAdDismiss() {
+
+                }
+
+                override fun onAdShowed() {
+                    //展示广告后再次请求新广告缓存下来
+                    loadNativeHomeAd()
+                }
+
+                override fun onAdShowFail() {
+
+                }
+            },
+            R.layout.layout_native_ad_home, mainDataBinding.navAdParentGroup
+        )
+    }
+
+    private fun loadNativeHomeAd() {
+        AdvertiseManager.reqAd(ConstantUtil.AD_SPACE_NATIVE_HOME)
+    }
+
+
     private fun dismissGuildAnimation() {
         guildLayout.clearAnimation()
         (window.decorView as FrameLayout).removeView(guildLayout)
@@ -423,7 +524,7 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
     )
 
     override fun onServiceDisconnected() {
-        Timber.d("onServiceDisconnected()")
+        Timber.d("onServiceDisconnected()---")
         changeVpnState(BaseService.State.Idle)
         Toast.makeText(this@MainActivity, "please try again", Toast.LENGTH_LONG).show()
         if (mainDataBinding.lav.isAnimating) {
@@ -432,7 +533,7 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
     }
 
     override fun onBinderDied() {
-        Timber.d("onBinderDied()")
+        Timber.d("onBinderDied()---")
         shadowSockConnection.disconnect(this)
         shadowSockConnection.connect(this, this)
     }
@@ -453,7 +554,7 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
             BaseService.State.Connecting -> {}
             BaseService.State.Connected -> {
                 cancelAnimation()
-                gotoConnectResultActivity(true)
+                showConnectResultInterAd(true)
                 //消除跳转突兀现象
                 lifecycleScope.launch {
                     delay(200)
@@ -463,32 +564,62 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
             BaseService.State.Stopping -> {}
             BaseService.State.Stopped -> {
                 cancelAnimation()
-                gotoConnectResultActivity(false)
+                showConnectResultInterAd(false)
                 connectStateIvBgDismiss()
             }
         }
     }
 
+    private fun showConnectResultInterAd(isConnected: Boolean) {
+        AdvertiseManager.showAd(
+            this@MainActivity,
+            ConstantUtil.AD_SPACE_INTER_CLICK,
+            object : AdShowStateCallBack {
+                override fun onAdDismiss() {
+                    gotoConnectResultActivity(isConnected)
+                    reqInterClickAd()
+                }
+
+                override fun onAdShowed() {
+
+                }
+
+                override fun onAdShowFail() {
+                    gotoConnectResultActivity(isConnected)
+                }
+
+            })
+    }
+
     private fun gotoConnectResultActivity(isConnected: Boolean) {
-        val countryAndCity = if (isConnected) {
-            SPUtil.getString(ConstantUtil.CUR_SELECT_COUNTRY)
-        } else {
-            if (isServerPageReqStopVpn) {//VPN选择页面停止VPN
-                SPUtil.getString(ConstantUtil.LAST_SELECT_COUNTRY)
-            } else {//主页停止VPN
+        Timber.d("gotoConnectResultActivity()---跳转结果页---isConnected:$isConnected")
+        if (ProjectUtil.isPageVisible(this@MainActivity)) {
+            val countryAndCity = if (isConnected) {
                 SPUtil.getString(ConstantUtil.CUR_SELECT_COUNTRY)
+            } else {
+                if (isServerPageReqStopVpn) {//VPN选择页面停止VPN
+                    SPUtil.getString(ConstantUtil.LAST_SELECT_COUNTRY)
+                } else {//主页停止VPN
+                    SPUtil.getString(ConstantUtil.CUR_SELECT_COUNTRY)
+                }
             }
+            val intent = Intent(this@MainActivity, ConnectResultActivity::class.java)
+            intent.putExtra(
+                ConstantUtil.COUNTRY_AND_CITY_KEY, countryAndCity
+            )
+            resultLauncher?.launch(intent)
         }
-        val intent = Intent(this@MainActivity, ConnectResultActivity::class.java)
-        intent.putExtra(
-            ConstantUtil.COUNTRY_AND_CITY_KEY, countryAndCity
-        )
-        resultLauncher?.launch(intent)
+        if (isConnected) {
+            TimeUtil.startAccumulateTime()
+        } else {
+            TimeUtil.pauseTime()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         shadowSockConnection.disconnect(this)
+        App.activityLifecycleCallBack.appFrontAndBgListenerList.remove(this)
     }
 
     private fun selectSmartService() {
@@ -572,4 +703,27 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback {
         vpnBean.connectTime.value = ConstantUtil.CONNECT_DEFAULT_TIME
         return vpnBean
     }
+
+    override fun onAppToFront(activity: Activity) {
+        Timber.d("onAppToFront()---")
+        destroyAdPageScopeJob?.cancel()
+    }
+
+    override fun onAppToBackGround(activity: Activity) {
+        Timber.d("onAppToBackGround()---")
+        stopAnimationAndResetState()
+        processAdPage(activity)
+    }
+
+    private fun processAdPage(activity: Activity) {
+        //判断超过3秒关闭广告页面
+        if (activity is AdActivity || activity is WebViewAdActivity) {
+            destroyAdPageScopeJob = lifecycleScope.launch {
+                delay(3000L)
+                activity.finish()
+                Timber.d("processAdPage()---关闭广告页面")
+            }
+        }
+    }
+
 }

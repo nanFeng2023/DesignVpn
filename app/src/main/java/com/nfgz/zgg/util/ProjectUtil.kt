@@ -1,8 +1,11 @@
 package com.nfgz.zgg.util
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.ParseException
 import android.net.Uri
 import android.telephony.TelephonyManager
 import android.widget.Toast
@@ -25,6 +28,7 @@ import timber.log.Timber
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.system.exitProcess
@@ -34,6 +38,13 @@ object ProjectUtil {
 
     //是否进行过IP检测
     var isCheckIpHasBeenPerformed = false
+
+    //是否是广告页面销毁事件
+    var isAdPageDestroyEvent = false
+
+    var isRefreshNativeAd = false
+
+    var flashPageVisibleReload = false
 
     fun restrictIpDetect(callBack: BusinessProcessCallBack<Boolean>?) {
         val reqApiIml = ReqApiIml()
@@ -249,14 +260,70 @@ object ProjectUtil {
         return countryResId
     }
 
-    fun isPageResume(): Boolean {
-        val currentActivity = ActivityManager.getCurrentActivity()
-        if (currentActivity is AppCompatActivity
-            && currentActivity.lifecycle.currentState == Lifecycle.State.RESUMED
+    fun isPageVisible(activity: AppCompatActivity): Boolean {
+        Timber.d("isPageVisible()---currentActivity:${activity.localClassName}---currentState:${activity.lifecycle.currentState}")
+        if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) ||
+            activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
         ) {
             return true
         }
         return false
     }
+
+    fun getTopActivity(): Activity? {
+        return ActivityManager.getCurrentActivity()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun longToYMDHMS(long: Long): String {
+        val date = Date(long)
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        return simpleDateFormat.format(date)
+    }
+
+    /**
+     * 判断给定字符串时间是否为今日
+     * @param date
+     * @return boolean
+     */
+    fun isToday(date: String?): Boolean {
+        var isToday = false
+        val time: Date? = toDate(date)
+        val today = Date()
+        if (time != null) {
+            val nowDate: String = dateFormat2.get()?.format(today) ?: ""
+            val timeDate: String = dateFormat2.get()?.format(time) ?: ""
+            Timber.d("isToday()---nowDate:$nowDate---timeDate:$timeDate")
+            if (nowDate == timeDate) {
+                isToday = true
+            }
+        }
+        Timber.d("isToday()---isToday:$isToday")
+        return isToday
+    }
+
+    private fun toDate(date: String?): Date? {
+        return try {
+            date?.let { dateFormat.get()?.parse(it) }
+        } catch (e: ParseException) {
+            null
+        }
+    }
+
+    private val dateFormat: ThreadLocal<SimpleDateFormat?> =
+        object : ThreadLocal<SimpleDateFormat?>() {
+            @SuppressLint("SimpleDateFormat")
+            override fun initialValue(): SimpleDateFormat {
+                return SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            }
+        }
+
+    private val dateFormat2: ThreadLocal<SimpleDateFormat?> =
+        object : ThreadLocal<SimpleDateFormat?>() {
+            @SuppressLint("SimpleDateFormat")
+            override fun initialValue(): SimpleDateFormat {
+                return SimpleDateFormat("yyyy-MM-dd")
+            }
+        }
 
 }

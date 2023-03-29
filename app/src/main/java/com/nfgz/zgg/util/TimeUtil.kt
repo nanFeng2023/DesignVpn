@@ -14,7 +14,7 @@ object TimeUtil {
 
     private val runnable = object : Runnable {
         override fun run() {
-            millisecondsRecord = SystemClock.uptimeMillis() - startTime
+            millisecondsRecord = System.currentTimeMillis() - startTime
             calculateTime()
             handler?.postDelayed(this, 1000)
         }
@@ -31,7 +31,7 @@ object TimeUtil {
     }
 
     fun startAccumulateTime() {
-        startTime = SystemClock.uptimeMillis()
+        startTime = System.currentTimeMillis()
         handler?.postDelayed(runnable, 1000)
     }
 

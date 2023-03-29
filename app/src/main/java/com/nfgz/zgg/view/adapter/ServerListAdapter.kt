@@ -54,7 +54,7 @@ class ServerListAdapter(private val serviceList: ArrayList<VpnBean>) :
 
         holder.itemView.setOnClickListener {
             if ((position == 0 && DvViewModel.currentVpnBean.state == VpnBean.VpnState.IDLE)
-                || curSelectCountry != vpnBean.getVpnShowTitle()
+                || curSelectCountry != vpnBean.getVpnShowTitle() || DvViewModel.currentVpnBean.state != VpnBean.VpnState.CONNECTED
             ) {
                 onItemClick.invoke(position)
             }

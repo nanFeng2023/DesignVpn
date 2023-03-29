@@ -11,4 +11,6 @@
     <string name="vpn_disconnected" translatable="false">VPN Disconnected</string>
     <string name="connected_successfully" translatable="false">Connected Successfully</string>
     <string name="server" translatable="false">Server</string>
+    <string name="facebook_app_id" translatable="false">fb id assigned by your application</string>
+    <string name="google_ad_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 </resources>

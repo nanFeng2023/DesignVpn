@@ -19,6 +19,6 @@ class ReqApiIml : ReqApiInterface {
     }
 
     override fun getAdDataList() {
-
+        RetrofitUtil.getAdListData()
     }
 }

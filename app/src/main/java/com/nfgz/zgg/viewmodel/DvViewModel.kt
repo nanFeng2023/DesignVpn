@@ -74,6 +74,6 @@ object DvViewModel : ViewModel() {
         resetVpnBean.port = currentVpnBean.port
         resetVpnBean.city = currentVpnBean.city
         resetVpnBean.ip = currentVpnBean.ip
-        Timber.d("remainLastVpnBeanInfo()")
+        Timber.d("remainLastVpnBeanInfo()---")
     }
 }

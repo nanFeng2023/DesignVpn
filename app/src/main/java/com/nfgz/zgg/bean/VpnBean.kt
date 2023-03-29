@@ -1,11 +1,12 @@
 package com.nfgz.zgg.bean
 
 import androidx.lifecycle.MutableLiveData
+import com.nfgz.zgg.util.ConstantUtil
 
 class VpnBean() {
     //基础字段
     var account: String? = null
-    var country: String? = null
+    var country: String? = ConstantUtil.DEFAULT_SERVICE
     var pwd: String? = null
     var port: Int = 0
     var city: String? = null

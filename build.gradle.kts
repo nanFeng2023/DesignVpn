@@ -2,6 +2,7 @@
 
 plugins {
     id("com.github.ben-manes.versions") version "0.45.0"
+//    id("org.jetbrains.kotlin.android") version "1.8.0" apply false
 }
 
 buildscript {

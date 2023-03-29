@@ -42,5 +42,13 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_bg"
             android:max="100"
             android:progressDrawable="@drawable/style_progressbar_flash" />
+
+        <WebView
+            android:id="@+id/web"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="invisible"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
