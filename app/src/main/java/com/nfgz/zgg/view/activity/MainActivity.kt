@@ -191,7 +191,6 @@ class MainActivity : BaseActivity(), ShadowsocksConnection.Callback, AppFrontAnd
         currentVpnBean = DvViewModel.currentVpnBean
         //vpn对象设置到布局中
         mainDataBinding.viewModel = DvViewModel
-        mainDataBinding.clVpn.viewModel = DvViewModel
 
         //网络检测
         netCheck()

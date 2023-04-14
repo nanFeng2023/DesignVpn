@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--tools:bind="@{vpnBean}" -->
             <include
                 android:id="@+id/cl_vpn"
                 layout="@layout/layout_current_vpn_show_bar"
@@ -30,7 +29,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:viewModel="@{viewModel}" />
 
             <TextView
                 android:id="@+id/tv_connect_time_title"

@@ -71,7 +71,7 @@ object ProjectUtil {
         val countryUppercase = country?.uppercase()
         val isBelongRestrictCountry =
             ConstantUtil.COUNTRY_HK == countryUppercase ||
-                    ConstantUtil.COUNTRY_CN == countryUppercase ||
+                    /*ConstantUtil.COUNTRY_CN == countryUppercase ||*/
                     ConstantUtil.COUNTRY_IR == countryUppercase ||
                     ConstantUtil.COUNTRY_MO == countryUppercase
         DvViewModel.currentVpnBean.isBelongRestrictCountry = isBelongRestrictCountry
@@ -126,7 +126,6 @@ object ProjectUtil {
             val parse =
                 Uri.parse("${ConstantUtil.GOOGLE_STORE_URL}${App.appContext.packageName}")
             val intent = Intent(Intent.ACTION_VIEW, parse)
-            intent.`package` = playPackage
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             App.appContext.startActivity(intent)
         }
